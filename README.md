@@ -1,6 +1,6 @@
 # Overview
 
-Embed binary files and resources (such as GLSL shader source files) into C++ projects. Uses C++11 features but no other library.
+Embed binary files and resources (such as GLSL shader source files) into C++ projects. Uses C++11 features but no other library/dependencies.
 
 # Usage
 
@@ -15,12 +15,12 @@ CMakeLists.txt file:
 ```cmake
 embed_resources(MyResources shaders/vertex.glsl shaders/frag.glsl)
 ```
-Then link to your binary by adding the created variable to your `add_executable()` statement:
+Then add the generated source files, containing the resources, to your binary by adding the created variable to your `add_executable()` statement and linking against `embed_resource`:
 ```cmake
 add_executable(your_target_name ${SOURCE_FILES} ${MyResources})
 target_link_libraries(your_target_name embed_resource)
 ```
-In your C++ project you can access your embed resources using the `Resource` class provided in `embed_resource/loader.h`. Here's an example:
+In your C++ project, you can access your embed resources using the `Resource` class provided in `embed_resource/loader.h`. Here's an example:
 ```c++
 #include <iostream>
 using namespace std;
@@ -29,14 +29,16 @@ using namespace std;
 
 int main()
 {
-  Resource text = LOAD_RESOURCE(frag_glsl);
+  Resource text = LOAD_RESOURCE(shaders_frag_glsl);
   cout << text.toString() << endl;
 
   return EXIT_SUCCESS;
 }
 ```
 
-Note: to reference the file, replace the `.` in `frag.glsl` with an underscore `_`. So, in this example, the symbol name is `frag_glsl`.
+Note: to reference the file, replace the `.` in `frag.glsl` with an underscore `_`. So, in this example, the symbol name is `shaders_frag_glsl`.
+
+An example is provided in the `example/` directory.
 
 # Credits
 Forked and improved from [here](https://github.com/cyrilcode/embed-resource).
