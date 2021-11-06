@@ -19,9 +19,17 @@ int main(int argc, char** argv)
 
     std::ifstream ifs;
     ifs.open(argv[2]);
+    if (!ifs.is_open()) {
+        std::cerr << "error: unable to read " << argv[2] << std::endl;
+        return EXIT_FAILURE;
+    }
 
     std::ofstream ofs;
     ofs.open(argv[1]);
+    if (!ofs.is_open()) {
+        std::cerr << "error: unable to create " << argv[1] << std::endl;
+        return EXIT_FAILURE;
+    }
 
     ofs << "#include <stdlib.h>" << std::endl;
     ofs << "const char _resource_" << sym << "[] = {" << std::endl;
