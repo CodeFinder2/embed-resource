@@ -15,7 +15,7 @@ function(embed_resources out_var)
     get_filename_component(out_f_dir "${out_f}" DIRECTORY)
     add_custom_command(OUTPUT ${out_f}
         COMMAND ${CMAKE_COMMAND} -E make_directory "${out_f_dir}"
-        COMMAND embed-resource "${out_f}" "${src_f}"
+        COMMAND ${CMAKE_PROJECT_NAME}_builder "${out_f}" "${src_f}"
         DEPENDS "${in_f}" ${CMAKE_PROJECT_NAME}_builder
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Building binary file for embedding ${out_f}"
