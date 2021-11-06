@@ -1,53 +1,45 @@
-# Embed Resource
+# Overview
 
-Embed binary files and resources (such as GLSL Shader source files) into
-C++ projects. Uses C++11 features and Boost for filesystem.
+Embed binary files and resources (such as GLSL shader source files) into C++ projects. Uses C++11 features but no other library.
 
-Include this repository in your CMake based project:
+# Usage
 
-    git submodule add https://github.com/cyrilcode/embed-resource.git lib/embed-resource
-
-Then add to your CMakeLists.txt for your project:
-
-    include_directories(lib/embed-resource)
-    add_subdirectory(lib/embed-resource)
+Use [CPM](https://github.com/cpm-cmake/CPM.cmake) to add this to your `CMakeLists.txt`:
+```cmake
+include(cmake/CPM.cmake)
+CPMAddPackage("gh:CodeFinder2/embed-resource#master")
+```
 
 Now you can add your resources, by calling the provided `embed_resources()` function in your
 CMakeLists.txt file:
+```cmake
+embed_resources(MyResources shaders/vertex.glsl shaders/frag.glsl)
+```
+Then link to your binary by adding the created variable to your `add_executable()` statement:
+```cmake
+add_executable(your_target_name ${SOURCE_FILES} ${MyResources})
+target_link_libraries(your_target_name embed_resource)
+```
+In your C++ project you can access your embed resources using the `Resource` class provided in `embed_resource/loader.h`. Here's an example:
+```c++
+#include <iostream>
+using namespace std;
 
-    embed_resources(MyResources shaders/vertex.glsl shaders/frag.glsl)
+#include <embed_resource/loader.h>
 
-Then link to your binary by adding the created variable to your add_executable statement:
+int main()
+{
+  Resource text = LOAD_RESOURCE(frag_glsl);
+  cout << text.toString() << endl;
 
-    add_executable(MyApp ${SOURCE_FILES} ${MyResources})
+  return EXIT_SUCCESS;
+}
+```
 
-In your C++ project you can access your embed resources using the Resource class
-provided in `Resource.h`. Here's an example:
+Note: to reference the file, replace the `.` in `frag.glsl` with an underscore `_`. So, in this example, the symbol name is `frag_glsl`.
 
-    #include <iostream>
-    using namespace std;
+# Credits
+Forked and improved from [here](https://github.com/cyrilcode/embed-resource).
 
-    #include "Resource.h"
-
-    int main() {
-
-        Resource text = LOAD_RESOURCE(frag_glsl);
-        cout << string(text.data(), text.size()) << endl;
-
-        return EXIT_SUCCESS;
-    }
-
-NB: To reference the file, replace the `.` in `frag.glsl` with an underscore `_`.
-So, in this example, the symbol name is `frag_glsl`.
-
-### Credits...
-
-This uses ideas from
-[this blog post](https://beesbuzz.biz/blog/e/2014/07/31-embedding_binary_resources_with_cmake_and_c11.php)
-which included the Resource class and macro idea. Unfortunately, the use of `ld` command didn't work on OSX.
-So, instead, I've used a simple C++ executable that does the same conversion, based on ideas from
-[this Stack Overflow question](http://stackoverflow.com/questions/11813271/embed-resources-eg-shader-code-images-into-executable-library-with-cmake).
-
-## License
-
+# License
 Public Domain / [WTFPL](http://www.wtfpl.net/)
