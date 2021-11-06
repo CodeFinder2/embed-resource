@@ -19,6 +19,7 @@ function(embed_resources out_var)
   foreach(in_f ${ARGN})
     file(RELATIVE_PATH src_f ${CMAKE_CURRENT_SOURCE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/${in_f}")
     set(out_f "${out_dir}/${in_f}.cpp")
+    file(SIZE "${CMAKE_CURRENT_SOURCE_DIR}/${in_f}" file_size)
     set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_CLEAN_FILES ${out_f})
     get_filename_component(out_f_dir "${out_f}" DIRECTORY)
     add_custom_command(OUTPUT ${out_f}
@@ -26,7 +27,7 @@ function(embed_resources out_var)
         COMMAND embed_resource_builder "${out_f}" "${src_f}" "${out_hdr}"
         DEPENDS "${in_f}" embed_resource_builder
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Building binary file for embedding ${out_f}"
+        COMMENT "Building binary file (${file_size} bytes) for embedding ${out_f}"
         VERBATIM)
     list(APPEND result "${out_f}")
   endforeach()
@@ -47,7 +48,7 @@ target_include_directories(
 # Optionally, build the example application:
 option(EMBED_RESOURCE_BUILD_EXAMPLE "Build the example?" OFF)
 if(EMBED_RESOURCE_BUILD_EXAMPLE)
-  embed_resources(MyExampleResources example/data.txt)
+  embed_resources(MyExampleResources example/data.txt example/main.cpp)
   add_executable(${PROJECT_NAME}_example example/main.cpp ${MyExampleResources})
   target_link_libraries(${PROJECT_NAME}_example ${PROJECT_NAME})
 endif()

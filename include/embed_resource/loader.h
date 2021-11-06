@@ -1,5 +1,5 @@
-#ifndef EMBED_RESOURCE_H
-#define EMBED_RESOURCE_H
+#ifndef EMBED_RESOURCE_LOADER_H
+#define EMBED_RESOURCE_LOADER_H
 
 #include <cstddef>
 #include <string>
@@ -9,23 +9,21 @@
 
 class Resource {
 public:
-  Resource(const char* start, const size_t len) : resource_data(start), data_len(len) { }
+  Resource(const char *start, const std::size_t len) : resource_data(start), data_len(len) { }
 
   const char * const &data() const { return resource_data; }
-  const size_t &size() const { return data_len; }
+  const std::size_t &size() const { return data_len; }
 
   const char *begin() const { return resource_data; }
   const char *end() const { return resource_data + data_len; }
 
-  std::string toString() { return std::string(data(), size()); }
+  std::string toString() const { return std::string(data(), size()); }
 
 private:
-  const char* resource_data;
+  const char *resource_data;
   const size_t data_len;
-
 };
-#define LOAD_RESOURCE(RESOURCE) ([]() {                                                       \
-    return Resource(res::_resource_##RESOURCE, res::_resource_##RESOURCE##_len);                        \
-  })()
 
-#endif // EMBED_RESOURCE_H
+#define LOAD_RESOURCE(x) ([]() { return Resource(res::_resource_##x, res::_resource_##x##_len); })()
+
+#endif // EMBED_RESOURCE_LOADER_H

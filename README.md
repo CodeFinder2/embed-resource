@@ -38,7 +38,12 @@ int main()
 
 Note: to reference the file, replace the `.` in `frag.glsl` with an underscore `_`. So, in this example, the symbol name is `shaders_frag_glsl`.
 
-An example is provided in the `example/` directory.
+An example is provided in the `example/` directory. It can be compiled and started as follows:
+```shell
+mkdir build && cd build/
+cmake -DEMBED_RESOURCE_BUILD_EXAMPLE=ON .. && make -j$(nproc)
+./embed_resource_example
+```
 
 # Credits
 Forked and improved from [here](https://github.com/cyrilcode/embed-resource).
