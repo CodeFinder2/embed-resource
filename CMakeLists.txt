@@ -9,8 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 function(embed_resources out_var)
   set(result)
+  # Binary resource files and the resource header file will be generated in the following directoy:
   set(out_dir "${PROJECT_BINARY_DIR}/embed_resource")
   file(MAKE_DIRECTORY ${out_dir})
+  # File name of the resource header file:
   set(out_hdr "${out_dir}/resources.h")
   set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_CLEAN_FILES ${out_hdr})
   list(APPEND ADDITIONAL_CLEAN_FILES ${out_hdr})

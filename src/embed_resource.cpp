@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
   int i = 0;
   while (ifs >> noskipws >> c) {
     ofs << "0x" << hex << (c & 0xff) << (i++ < int(file_size) - 1 ? ", " : " ");
-    if (++line_break == 50) {
+    if (++line_break == 10) {
       ofs << "\n  ";
       line_break = 0;
     }
