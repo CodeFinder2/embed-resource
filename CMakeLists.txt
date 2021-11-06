@@ -33,7 +33,7 @@ endfunction()
 
 add_executable(embed_resource_builder src/embed_resource.cpp)
 target_compile_features(embed_resource_builder INTERFACE cxx_std_11)
-target_compile_definitions(embed_resource_builder PRIVATE CMAKE_VERSION="${CMAKE_VERSION}")
+target_compile_definitions(embed_resource_builder PRIVATE CMAKE_VERSION=" v${CMAKE_VERSION}")
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(
