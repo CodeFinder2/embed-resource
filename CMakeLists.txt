@@ -16,7 +16,7 @@ function(embed_resources out_var)
     add_custom_command(OUTPUT ${out_f}
         COMMAND ${CMAKE_COMMAND} -E make_directory "${out_f_dir}"
         COMMAND embed-resource "${out_f}" "${src_f}"
-        DEPENDS "${in_f}" ${PROJECT_NAME}_builder
+        DEPENDS "${in_f}" ${CMAKE_PROJECT_NAME}_builder
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Building binary file for embedding ${out_f}"
         VERBATIM)
@@ -25,13 +25,13 @@ function(embed_resources out_var)
   set(${out_var} "${result}" PARENT_SCOPE)
 endfunction()
 
-add_executable(${PROJECT_NAME}_builder src/embed_resource.cpp)
-target_compile_features(${PROJECT_NAME}_builder INTERFACE cxx_std_11)
+add_executable(${CMAKE_PROJECT_NAME}_builder src/embed_resource.cpp)
+target_compile_features(${CMAKE_PROJECT_NAME}_builder INTERFACE cxx_std_11)
 
-add_library(${PROJECT_NAME} INTERFACE)
+add_library(${CMAKE_PROJECT_NAME} INTERFACE)
 target_include_directories(
-  ${PROJECT_NAME}
-  INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
+  ${CMAKE_PROJECT_NAME}
+  INTERFACE $<BUILD_INTERFACE:${${CMAKE_PROJECT_NAME}_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 #set(EMBED_RES_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
