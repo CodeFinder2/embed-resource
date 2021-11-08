@@ -75,7 +75,6 @@ int main(int argc, char *argv[])
   // Write header:
   bool header_exists = exists(argv[3]);
   ofstream ofs_header;
-  cout << argv[3] << endl;
   ofs_header.open(argv[3], header_exists ? ios::out | ios::app : ios::out);
   if (!ofs_header.is_open()) {
     cerr << "error: unable to create " << argv[3] << endl;
