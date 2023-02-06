@@ -45,6 +45,10 @@ cmake -DEMBED_RESOURCE_BUILD_EXAMPLE=ON .. && make -j$(nproc)
 ./embed_resource_example
 ```
 
+# Limitations
+- `embed_resources()` can only be called once.
+- Resource names cannot be modified and must match the provided (and properly modified) path to the resource file.
+
 # Credits
 Forked and improved from [here](https://github.com/cyrilcode/embed-resource).
 
