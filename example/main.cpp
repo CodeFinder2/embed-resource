@@ -12,6 +12,8 @@ void myFunction()
 {
   // Here, we embed this source code itself as the resource:
   Resource text = LOAD_RESOURCE(example_main_cpp);
+  Resource test = LOAD_RESOURCE(example_test_png);
+  cout << "Image size: " << test.size() << " bytes" << endl;
   // File-like processing: iterate through file line-by-line:
   istringstream buf(text.data());
   string line;

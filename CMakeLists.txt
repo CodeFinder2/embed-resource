@@ -48,7 +48,7 @@ target_include_directories(
 # Optionally, build the example application:
 option(EMBED_RESOURCE_BUILD_EXAMPLE "Build the example?" OFF)
 if(EMBED_RESOURCE_BUILD_EXAMPLE)
-  embed_resources(MyExampleResources example/data.txt example/main.cpp)
+  embed_resources(MyExampleResources example/data.txt example/main.cpp example/test.png)
   add_executable(${PROJECT_NAME}_example example/main.cpp ${MyExampleResources})
   target_link_libraries(${PROJECT_NAME}_example ${PROJECT_NAME})
 endif()
